@@ -68,6 +68,9 @@ int main(int argc, char *argv[])
         
         Uint64 current = SDL_GetTicksNS();
         float dt = (current - last)/1e9f ;
+        
+        if (dt > 0.05f) dt = 0.05f;
+
         moveplayer(spaceship,dt);
         drawplayer(renderer,player,spaceship);
 

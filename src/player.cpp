@@ -15,111 +15,89 @@ void moveplayer(player_pos &p,float dt)
   int numKeys;
   const bool* key = SDL_GetKeyboardState(&numKeys);
 
-  bool noKeyPressed = true;
-  for(int i = 0 ; i < numKeys ; i++)
-    if(key[i])
-    {
-      noKeyPressed = false;
-      break;
-    }
-
-  if(noKeyPressed){
-   if(p.vx != 0)
+//  key[SDL_SCANCODE_LEFT] = key[SDL_SCANCODE_A]; 
+//  key[SDL_SCANCODE_RIGHT] = key[SDL_SCANCODE_D]; 
+//  key[SDL_SCANCODE_UP] = key[SDL_SCANCODE_W]; 
+//  key[SDL_SCANCODE_DOWN] = key[SDL_SCANCODE_S]; 
+  
+  if( key[SDL_SCANCODE_A]==key[SDL_SCANCODE_D]|| (!key[SDL_SCANCODE_A] && !key[SDL_SCANCODE_D] && p.vx != 0))
    {
+      p.x += p.vx*dt;
       if(p.vx > 0)
       {
         float v = p.vx - p.de_a* dt;
         if(v<0)
           v=0;
-        p.x += v*dt;
         p.vx = v;
       }
       else{
          float v = p.vx + p.de_a*dt;
          if(v>0)
            v=0;
-         p.x += v*dt;
          p.vx = v;
 
-      }
-  
+      }  
    }
-   if(p.vy != 0)
+  
+   if(key[SDL_SCANCODE_S]==key[SDL_SCANCODE_W] || (!key[SDL_SCANCODE_W] && !key[SDL_SCANCODE_S]  && p.vy != 0))
    {
+      p.y += p.vy*dt;
       if(p.vy > 0)
       {
         float v = p.vy - p.de_a* dt;
         if(v<0)
           v=0;
-        p.y += v*dt;
         p.vy = v;
       }
       else{
          float v = p.vy + p.de_a*dt;
          if(v>0)
            v=0;
-         p.y += v*dt;
          p.vy = v;
       }
    }
-  }
 
-  else{
-  if(key[SDL_SCANCODE_A])
-  {
+  if(key[SDL_SCANCODE_A]!=key[SDL_SCANCODE_D])
+  { 
+    if(key[SDL_SCANCODE_A])
+   {
+      p.x += p.vx*dt;
       float v = p.vx - p.a * dt;
+      
       if(v<=-1*p.max_speed)
-      {
         p.vx = -1*p.max_speed;
-        p.x += p.vx*dt;
-      }
       else
-      {
-        p.x += v*dt;
         p.vx = v;
-      }
-  }
-  if(key[SDL_SCANCODE_D])
-  {
+    }
+    else if(key[SDL_SCANCODE_D])
+   {
+      p.x += p.vx*dt;
       float v = p.vx + p.a * dt;
       if(v>=p.max_speed)
-      {
         p.vx = p.max_speed;
-        p.x += p.vx*dt;
-      }
       else
-      {
-        p.x += v*dt;
         p.vx = v;
-      }
+    
+   }
   }
-  if(key[SDL_SCANCODE_S])
+  if(key[SDL_SCANCODE_W]!=key[SDL_SCANCODE_S])
+    if(key[SDL_SCANCODE_S])
   {
+      p.y += p.vy*dt;
       float v = p.vy + p.a*dt;
       if(v>=p.max_speed)
-      {
         p.vy = p.max_speed;
-        p.y += p.vy*dt;
-      }
       else
-      {
-        p.y += v*dt;
         p.vy = v;
-      }
   }
-  if(key[SDL_SCANCODE_W])
+  else if(key[SDL_SCANCODE_W])
   {
+      p.y += p.vy*dt;
       float v = p.vy - p.a * dt;
       if(v<=-1*p.max_speed)
-      {
         p.vy = -1*p.max_speed;
-        p.y += p.vy*dt;
-      }
       else
-      {
-        p.y += v*dt;
         p.vy = v;
-      }
-    }
   }
+  
 }
