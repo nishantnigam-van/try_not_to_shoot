@@ -5,6 +5,7 @@
 #include <SDL3_image/SDL_image.h>
 #include "texture.hpp"
 #include "player.hpp"
+#include "enemy.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,12 @@ int main(int argc, char *argv[])
     spaceship.h = 101.67f ;
     spaceship.x = 800;
     spaceship.y = 1000-101.67f;
+
+    enemy_pos enemyship;
+    enemyship.w = 43.5f;
+    enemyship.h = 59.0f;
+    enemyship.x = 800 ;
+    enemyship.y = enemyship.h;
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
@@ -45,9 +52,9 @@ int main(int argc, char *argv[])
       
     if (!enemy) return -1;
 
-    float enemy_pos_x = 1600 * 0.5f, enemy_pos_y = 1000 * 0.5f;      // pick whatever position you like
-    SDL_FRect dst_enemy = { SDL_roundf(enemy_pos_x), SDL_roundf(enemy_pos_y), 0, 0 };
-    SDL_GetTextureSize(enemy, &dst_enemy.w, &dst_enemy.h);   // draw 1:1, no resampling
+    // float enemy_pos_x = 1600 * 0.5f, enemy_pos_y = 1000 * 0.5f;      // pick whatever position you like
+    // SDL_FRect dst_enemy = { SDL_roundf(enemy_pos_x), SDL_roundf(enemy_pos_y), 0, 0 };
+    // SDL_GetTextureSize(enemy, &dst_enemy.w, &dst_enemy.h);   // draw 1:1, no resampling
     
     Uint64 last = SDL_GetTicksNS();  //Get current time
 
@@ -73,6 +80,8 @@ int main(int argc, char *argv[])
 
         moveplayer(spaceship,dt);
         drawplayer(renderer,player,spaceship);
+
+        drawenemy(renderer,enemy,enemyship);
 
         SDL_RenderPresent(renderer);
         last = current ;
