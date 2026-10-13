@@ -9,6 +9,7 @@ struct player_pos{
   float de_a = 1000.0f;
   float w,h;
   float max_speed = 600.0f;
+  float tilt = 0;
   };
 
 bool drawplayer(SDL_Renderer* r,SDL_Texture *player,const player_pos &p);
