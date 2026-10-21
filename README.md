@@ -45,17 +45,6 @@ A rough idea of the in-game screen (not final art):
 
 ---
 
-## ✨ Design goals
-
-| Goal | What it means |
-| --- | --- |
-| **Smooth** | Steady frame pacing, no stutter, movement that doesn't depend on frame rate |
-| **Responsive** | Input that feels instant, with no mushy controls |
-| **Simple** | Plain C++ and SDL3, easy to read and easy to build on |
-| **Fun first** | Tight, readable arcade action over feature bloat |
-
----
-
 ## 🧰 Tech stack
 
 | | |
@@ -116,21 +105,21 @@ try_not_to_shoot/
 
 Tick these off as you build them:
 
-- [ ] Window, renderer, and a stable game loop
-- [ ] Player ship with smooth movement
+- [+] Window, renderer, and a stable game loop
+- [+] Player ship with smooth movement
 - [ ] Shooting and projectiles
-- [ ] Enemies and spawning
+- [~] Enemies and spawning
 - [ ] Collisions and damage
 - [ ] Score and lives HUD
 - [ ] Title screen and game over screen
-- [ ] Sound effects and music
+- [?] Sound effects and music
 - [ ] Polish: particles, screen shake, difficulty curve
 
 ---
 
 <div align="center">
 
-Made with ☕ and SDL3 by [@nishantnigam-van](https://github.com/nishantnigam-van)
+Made by [@nishantnigam-van](https://github.com/nishantnigam-van)
 
 ⭐ If you like where this is going, drop a star.
 
