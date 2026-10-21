@@ -19,8 +19,6 @@ int main(int argc, char *argv[])
     enemy_pos enemyship;
     enemyship.w = 43.5f;
     enemyship.h = 59.0f;
-    enemyship.x = 800 ;
-    enemyship.y = enemyship.h;
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
@@ -57,7 +55,7 @@ int main(int argc, char *argv[])
     // SDL_GetTextureSize(enemy, &dst_enemy.w, &dst_enemy.h);   // draw 1:1, no resampling
     
     Uint64 last = SDL_GetTicksNS();  //Get current time
-
+    Uint64 start_time = SDL_GetTicksNS(); //To increase the number of enemies as the time increases
     bool done = false;
     
     SDL_Event event;
@@ -78,9 +76,11 @@ int main(int argc, char *argv[])
         
         if (dt > 0.05f) dt = 0.05f;
 
+//	done = gameover(spaceship,enemyship);
+
         moveplayer(spaceship,dt);
         drawplayer(renderer,player,spaceship);
-
+	getenemycoordinates(start_time,current,enemyship);
         drawenemy(renderer,enemy,enemyship);
 
         SDL_RenderPresent(renderer);
@@ -88,6 +88,7 @@ int main(int argc, char *argv[])
     }
 
     SDL_DestroyTexture(enemy);
+    SDL_DestroyTexture(player);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
