@@ -20,19 +20,24 @@ void drawbullet(SDL_Renderer *r , SDL_Texture *bullet , vector<bullet_pos> &bull
 
 void shootbullet(player_pos &p , vector<bullet_pos> &bullets)
 { 
-  bullets.push_back({
-      p.x + p.h/4 ,
-      p.y + p.h/2 , 
-      width ,
-      height 
-  });
+  int numKeys;
+  const bool* key = SDL_GetKeyboardState(&numKeys);
 
-  bullets.push_back({
-      p.x + 3*p.h/4 ,
-      p.y + p.h/2 , 
-      width ,
-      height 
-  });
+  if(key[SDL_SCANCODE_SPACE]){
+    bullets.push_back({
+        p.x + 1.5f  ,
+        p.y + p.h/2 , 
+        width ,
+        height 
+    });
+
+    bullets.push_back({
+        p.x + p.w -5,
+        p.y + p.h/2 , 
+        width ,
+        height 
+    });
+  }
 
 }
 

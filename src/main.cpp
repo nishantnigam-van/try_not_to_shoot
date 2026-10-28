@@ -74,8 +74,6 @@ int main(int argc, char *argv[])
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) done = true;
             if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE) done = true;
-            if(event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_SPACE)
-              shootbullet(spaceship,bullets);
         }
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);   // set BEFORE clear
@@ -87,6 +85,7 @@ int main(int argc, char *argv[])
         if (dt > 0.05f) dt = 0.05f;
 
 
+        shootbullet(spaceship,bullets);
         moveplayer(spaceship,dt);
       	moveenemy(enemyship,dt);
         movebullet(bullets,dt);
