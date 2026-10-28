@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 TRY NOT TO SHOOT
+#   TRY NOT TO SHOOT
 
 ### A smooth, fast-feeling space-ship shooter built from scratch in C++ and SDL3
 
@@ -12,17 +12,17 @@
 
 ---
 
-## 🎮 About
+##   About
 
 **Try Not To Shoot** is an arcade-style space-ship shooter. You pilot a ship, dodge what's coming, and blast your way through the dark, and the whole thing is built around one idea: **it should feel smooth**.
 
 No big engine, no heavy framework. Just C++, SDL3, and the basics, written to be simple, fast, and satisfying to play.
 
-> 🛠️ **This project is a work in progress.** Things will change, break, and get better.
+>   **This project is a work in progress.** Things will change, break, and get better.
 
 ---
 
-## 🖼️ Concept mockup
+##   Concept mockup
 
 A rough idea of the in-game screen (not final art):
 
@@ -45,7 +45,7 @@ A rough idea of the in-game screen (not final art):
 
 ---
 
-## 🧰 Tech stack
+##   Tech stack
 
 | | |
 | --- | --- |
@@ -55,7 +55,7 @@ A rough idea of the in-game screen (not final art):
 
 ---
 
-## 🚀 Getting started
+##   Getting started
 
 ### Prerequisites
 
@@ -80,7 +80,7 @@ g++ src/*.cpp -std=c++17 $(pkg-config --cflags --libs sdl3) -o try_not_to_shoot
 
 ---
 
-## 🕹️ Controls (planned)
+##   Controls (planned)
 
 | Action | Key |
 | --- | --- |
@@ -90,7 +90,7 @@ g++ src/*.cpp -std=c++17 $(pkg-config --cflags --libs sdl3) -o try_not_to_shoot
 
 ---
 
-## 📁 Project structure
+##   Project structure
 
 ```
 try_not_to_shoot/
@@ -101,7 +101,7 @@ try_not_to_shoot/
 
 ---
 
-## 🗺️ Roadmap
+##   Roadmap
 
 Tick these off as you build them:
 
@@ -118,9 +118,5 @@ Tick these off as you build them:
 ---
 
 <div align="center">
-
-Made by [@nishantnigam-van](https://github.com/nishantnigam-van)
-
-⭐ If you like where this is going, drop a star.
 
 </div>

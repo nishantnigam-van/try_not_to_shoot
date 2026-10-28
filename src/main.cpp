@@ -62,13 +62,15 @@ int main(int argc, char *argv[])
     }
     
     Uint64 last = SDL_GetTicksNS();  //Get current time
-    Uint64 start_time = SDL_GetTicksNS(); //To increase the number of enemies as the time increases
+    Uint64 start_time = SDL_GetTicks(); //To fix the infinte bullets spawning 
     bool done = false;
     
     SDL_Event event;
 
     while (!done)
     {
+        int numKeys;
+        const bool* key = SDL_GetKeyboardState(&numKeys);
       	done = gameover(spaceship,enemyship); //need here cause dont wanna overwrite the done from event.exit 
 
         while (SDL_PollEvent(&event)) {
@@ -80,12 +82,16 @@ int main(int argc, char *argv[])
         SDL_RenderClear(renderer);
         
         Uint64 current = SDL_GetTicksNS();
+        Uint64 current_time = SDL_GetTicks(); // to fix the infinte bullets spawning
         float dt = (current - last)/1e9f ;
         
         if (dt > 0.05f) dt = 0.05f;
 
 
-        shootbullet(spaceship,bullets);
+        if(key[SDL_SCANCODE_SPACE] && (current_time - start_time) > 100.0f){
+          shootbullet(spaceship,bullets);
+          start_time = current_time;
+        }
         moveplayer(spaceship,dt);
       	moveenemy(enemyship,dt);
         movebullet(bullets,dt);

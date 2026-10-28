@@ -3,13 +3,14 @@
 #include"bullets.hpp"
 #include"player.hpp"
 
-#define width 4.0f
-#define height 27.0f
-#define speed 300.0f //defined speed of the bullet here 
 
 void drawbullet(SDL_Renderer *r , SDL_Texture *bullet , vector<bullet_pos> &bullets)
 {
   for(int i = 0 ; i < bullets.size() ; i++){
+    if(bullets[i].x < -10 ||bullets[i].x > 1610 ||bullets[i].y < -10 || bullets[i].y > 1010 ){
+      bullets.erase(bullets.begin() + i);
+      continue;
+    }
 	      SDL_FRect dst ={bullets[i].x ,                          
 	                  bullets[i].y ,                           
 	                  bullets[i].w ,                           
@@ -28,14 +29,16 @@ void shootbullet(player_pos &p , vector<bullet_pos> &bullets)
         p.x + 1.5f  ,
         p.y + p.h/2 , 
         width ,
-        height 
+        height ,
+        speed
     });
 
     bullets.push_back({
         p.x + p.w -5,
         p.y + p.h/2 , 
         width ,
-        height 
+        height ,
+        speed
     });
   }
 
@@ -43,6 +46,8 @@ void shootbullet(player_pos &p , vector<bullet_pos> &bullets)
 
 void movebullet(vector<bullet_pos> &bullets , float dt)
 {
-	for(int i = 0 ; i < bullets.size() ; i++)
-		bullets[i].y -= speed*dt;
+	for(int i = 0 ; i < bullets.size() ; i++){
+    bullets[i].velocity = bullets[i].velocity  + acceleration;
+		bullets[i].y += bullets[i].velocity*dt;
+  }
 }
