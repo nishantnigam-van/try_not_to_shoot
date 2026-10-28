@@ -25,7 +25,7 @@ void getenemycoordinates(Uint64 old_time , Uint64 current_time , vector<enemy_po
 	{
 		float lower_bound_x = enemy_width/2;
 		float upper_bound_x = 1600.0f - enemy_width/2;
-		float generate_y = enemy_height/2;
+		float generate_y = enemy_height/2 - 200;
 		float generate_x = lower_bound_x + (upper_bound_x-lower_bound_x)*current_time/(10.0f * 1e9f); 
 		e.push_back(enemy_pos{generate_x,
 				generate_y,

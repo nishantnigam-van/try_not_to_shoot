@@ -3,6 +3,7 @@
 #include<SDL3/SDL.h>
 using namespace std;
 
+
 struct enemy_pos{
   float x ,y ;
   float w , h ;

@@ -7,6 +7,7 @@
 #include "player.hpp"
 #include "enemy.hpp"
 #include "gamelogic.hpp"
+#include "bullets.hpp"
 #include<vector>
 
 using namespace std;
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
 //    enemyship.h = 59.0f;
 
     vector<enemy_pos> enemyship;
+    vector<bullet_pos> bullets;
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
@@ -51,8 +53,10 @@ int main(int argc, char *argv[])
                                   43.5f*k , 59.0f*k );  // Multiplying with k help keep out render texture of same size couse some screen may more pixel so we render more like that i guess ?
     SDL_Texture *player = load_svg(renderer,"../Images/sprites/player.svg",
                                   91.67f*k, 101.67f*k);
+    SDL_Texture *bullet = load_svg(renderer , "../Images/sprites/bullet.svg",
+                                  4.0f*k , 27.0f*k); 
       
-    if (!enemy || !player) {
+    if (!enemy || !player || !bullet) {
 	    SDL_Log("Couldnt load enemy / player texture");
 	    return -1;
     }
@@ -65,10 +69,13 @@ int main(int argc, char *argv[])
 
     while (!done)
     {
+      	done = gameover(spaceship,enemyship); //need here cause dont wanna overwrite the done from event.exit 
 
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) done = true;
             if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE) done = true;
+            if(event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_SPACE)
+              shootbullet(spaceship,bullets);
         }
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);   // set BEFORE clear
@@ -79,12 +86,13 @@ int main(int argc, char *argv[])
         
         if (dt > 0.05f) dt = 0.05f;
 
-	done = gameover(spaceship,enemyship);
 
         moveplayer(spaceship,dt);
-	moveenemy(enemyship,dt);
+      	moveenemy(enemyship,dt);
+        movebullet(bullets,dt);
         drawplayer(renderer,player,spaceship);
-	getenemycoordinates(start_time,current,enemyship);
+        drawbullet(renderer,bullet,bullets);
+      	getenemycoordinates(start_time,current,enemyship);
         drawenemy(renderer,enemy,enemyship);
 
         SDL_RenderPresent(renderer);
