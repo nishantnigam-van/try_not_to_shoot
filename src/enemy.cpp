@@ -2,15 +2,21 @@
 #include<random>
 #include"enemy.hpp"
 #include<vector>
+#include<cstdlib>
 using namespace std;
 
 #define enemy_width 43.5f
 #define enemy_height 59.0f
+#define spawn_frequency 5.0f
   
 void drawenemy(SDL_Renderer * r , SDL_Texture * enemy , vector <enemy_pos>  &e){
 
-	  for(int i =0 ;i < e.size() ; i ++)
-	  {
+	  for(int i =0 ;i < e.size() ; i ++){
+        if(e[i].y > 1100){
+          e.erase(e.begin() + i);
+          i--;
+          continue;
+        }
 	      SDL_FRect dst ={e[i].x ,                          
 	                  e[i].y ,                           
 	                  e[i].w ,                           
@@ -19,14 +25,14 @@ void drawenemy(SDL_Renderer * r , SDL_Texture * enemy , vector <enemy_pos>  &e){
 	  }
   }
 
-void getenemycoordinates(Uint64 old_time , Uint64 current_time , vector<enemy_pos> &e)
+void getenemycoordinates(Uint64 *old_time , Uint64 current_time , vector<enemy_pos> &e)
 {
-	if(e.size()==0) //get something better about this
+	if(current_time - *old_time > spawn_frequency) //get something better about this
 	{
 		float lower_bound_x = enemy_width/2;
 		float upper_bound_x = 1600.0f - enemy_width/2;
 		float generate_y = enemy_height/2 - 200;
-		float generate_x = lower_bound_x + (upper_bound_x-lower_bound_x)*current_time/(10.0f * 1e9f); 
+		float generate_x = rand()%1600 ; 
 		e.push_back(enemy_pos{generate_x,
 				generate_y,
 				enemy_width,
@@ -34,6 +40,7 @@ void getenemycoordinates(Uint64 old_time , Uint64 current_time , vector<enemy_po
 				3
 				});
 	}
+  *old_time = current_time;
 }
 
 void moveenemy(vector<enemy_pos> &e, float dt){

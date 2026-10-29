@@ -8,6 +8,7 @@
 #include "enemy.hpp"
 #include "gamelogic.hpp"
 #include "bullets.hpp"
+#include "background.hpp"
 #include<vector>
 
 using namespace std;
@@ -49,12 +50,17 @@ int main(int argc, char *argv[])
     SDL_Log("render output: %dx%d", outW, outH);
 
     const float k = outH / 1000.0f;
+
+    //Load the Texture of all the objects used to render 
+
     SDL_Texture *enemy = load_svg(renderer, "../Images/sprites/enemy.svg", 
                                   43.5f*k , 59.0f*k );  // Multiplying with k help keep out render texture of same size couse some screen may more pixel so we render more like that i guess ?
     SDL_Texture *player = load_svg(renderer,"../Images/sprites/player.svg",
                                   91.67f*k, 101.67f*k);
     SDL_Texture *bullet = load_svg(renderer , "../Images/sprites/bullet.svg",
                                   4.0f*k , 27.0f*k); 
+    SDL_Texture *moon = load_svg(renderer ,"../Images/sprites/orb.svg",
+                                  88.0f*k , 81.0f*k);
       
     if (!enemy || !player || !bullet) {
 	    SDL_Log("Couldnt load enemy / player texture");
@@ -62,7 +68,8 @@ int main(int argc, char *argv[])
     }
     
     Uint64 last = SDL_GetTicksNS();  //Get current time
-    Uint64 start_time = SDL_GetTicks(); //To fix the infinte bullets spawning 
+    Uint64 start_time_for_bullets = SDL_GetTicks(); //To fix the infinte bullets spawning 
+    Uint64 start_time_for_enemies = SDL_GetTicks(); //To add spawing of the enemies 
     bool done = false;
     
     SDL_Event event;
@@ -82,23 +89,26 @@ int main(int argc, char *argv[])
         SDL_RenderClear(renderer);
         
         Uint64 current = SDL_GetTicksNS();
-        Uint64 current_time = SDL_GetTicks(); // to fix the infinte bullets spawning
+        Uint64 current_time_for_bullets = SDL_GetTicks(); // to fix the infinte bullets spawning
+        Uint64 current_time_for_enemies = SDL_GetTicks();//To add spawing of the enemies 
         float dt = (current - last)/1e9f ;
         
         if (dt > 0.05f) dt = 0.05f;
 
 
-        if(key[SDL_SCANCODE_SPACE] && (current_time - start_time) > 100.0f){
+        if(key[SDL_SCANCODE_SPACE] && (current_time_for_bullets - start_time_for_bullets) > 100.0f){
           shootbullet(spaceship,bullets);
-          start_time = current_time;
+          start_time_for_bullets = current_time_for_bullets;
         }
+      	getenemycoordinates(&start_time_for_enemies,current_time_for_enemies,enemyship);
+        destroyenemy(enemyship,bullets);
         moveplayer(spaceship,dt);
       	moveenemy(enemyship,dt);
         movebullet(bullets,dt);
         drawplayer(renderer,player,spaceship);
         drawbullet(renderer,bullet,bullets);
-      	getenemycoordinates(start_time,current,enemyship);
         drawenemy(renderer,enemy,enemyship);
+        drawmoon(renderer,moon);
 
         SDL_RenderPresent(renderer);
         last = current ;

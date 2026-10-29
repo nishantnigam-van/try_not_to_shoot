@@ -9,6 +9,7 @@ void drawbullet(SDL_Renderer *r , SDL_Texture *bullet , vector<bullet_pos> &bull
   for(int i = 0 ; i < bullets.size() ; i++){
     if(bullets[i].x < -10 ||bullets[i].x > 1610 ||bullets[i].y < -10 || bullets[i].y > 1010 ){
       bullets.erase(bullets.begin() + i);
+      i--;
       continue;
     }
 	      SDL_FRect dst ={bullets[i].x ,                          
