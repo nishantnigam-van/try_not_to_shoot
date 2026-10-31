@@ -61,6 +61,7 @@ A rough idea of the in-game screen (not final art):
 
 - A C++ compiler (GCC, Clang, or MSVC)
 - [SDL3](https://github.com/libsdl-org/SDL) installed on your system
+- make
 
 ### Clone
 
@@ -71,11 +72,8 @@ cd try_not_to_shoot
 
 ### Build and run
 
-<!-- TODO: replace this with your real build command (CMake, Makefile, etc.) -->
-
 ```bash
-g++ src/*.cpp -std=c++17 $(pkg-config --cflags --libs sdl3) -o try_not_to_shoot
-./try_not_to_shoot
+make
 ```
 
 ---
