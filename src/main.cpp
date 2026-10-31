@@ -13,7 +13,7 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main()
 {
 
     player_pos spaceship;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, nullptr);
 
-    if (!window || !renderer) {
+    if (!(window || renderer)) {
         SDL_Log("window/renderer failed: %s", SDL_GetError());
         return -1;
     }
@@ -61,9 +61,11 @@ int main(int argc, char *argv[])
                                   4.0f*k , 27.0f*k); 
     SDL_Texture *moon = load_svg(renderer ,"../Images/sprites/orb.svg",
                                   88.0f*k , 81.0f*k);
+    SDL_Texture *main_menu = load_svg(renderer , "../Images/sprites/pause_menu.svg",
+                                  1200.0f*k , 750.0f*k);
       
-    if (!enemy || !player || !bullet) {
-	    SDL_Log("Couldnt load enemy / player texture");
+    if (!enemy || !player || !bullet |!main_menu ) {
+	    SDL_Log("Couldnt load a texture");
 	    return -1;
     }
     
@@ -71,19 +73,15 @@ int main(int argc, char *argv[])
     Uint64 start_time_for_bullets = SDL_GetTicks(); //To fix the infinte bullets spawning 
     Uint64 start_time_for_enemies = SDL_GetTicks(); //To add spawing of the enemies 
     bool done = false;
+    bool menu = false;
     
     SDL_Event event;
 
     while (!done)
     {
+      //Just testing there render menus and other
         int numKeys;
         const bool* key = SDL_GetKeyboardState(&numKeys);
-      	done = gameover(spaceship,enemyship); //need here cause dont wanna overwrite the done from event.exit 
-
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT) done = true;
-            if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE) done = true;
-        }
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);   // set BEFORE clear
         SDL_RenderClear(renderer);
@@ -95,6 +93,15 @@ int main(int argc, char *argv[])
         
         if (dt > 0.05f) dt = 0.05f;
 
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_EVENT_QUIT) done = true;
+            if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE) menu = true;
+        }
+
+        while(menu==true)
+          drawmenu(&menu,&done,renderer,main_menu);
+
+        if(done==true) break;
 
         if(key[SDL_SCANCODE_SPACE] && (current_time_for_bullets - start_time_for_bullets) > 100.0f){
           shootbullet(spaceship,bullets);
@@ -109,9 +116,9 @@ int main(int argc, char *argv[])
         drawbullet(renderer,bullet,bullets);
         drawenemy(renderer,enemy,enemyship);
         drawmoon(renderer,moon);
-
         SDL_RenderPresent(renderer);
         last = current ;
+      	done = gameover(spaceship,enemyship); //need here cause dont wanna overwrite the done from event.exit 
     }
 
     SDL_DestroyTexture(enemy);

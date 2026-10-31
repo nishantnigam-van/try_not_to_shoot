@@ -9,3 +9,4 @@ using namespace std;
 #define moon_h 80.0f
 
 void drawmoon(SDL_Renderer *r , SDL_Texture * moon);
+void drawmenu(bool *menu , bool *done , SDL_Renderer *r , SDL_Texture *main_menu);
